@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +27,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter your name!", Toast.LENGTH_LONG).show()
             }else{
                 val intent = Intent(this,  QuizQuestionsActivity:: class.java)
+                intent.putExtra(Constants.USER_NAME, inputText.text.toString())
                 startActivity(intent)
             }
         }
 
     }
-
 
 }

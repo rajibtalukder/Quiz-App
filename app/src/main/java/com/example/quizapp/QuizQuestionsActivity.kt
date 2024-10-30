@@ -1,6 +1,7 @@
 package com.example.quizapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -20,6 +21,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mCurrentPosition: Int = 1
     private var mSelectedOptionPosition: Int = 0
+    private var mUserName : String? = null
+    private var mCorrectAnswers: Int = 0
+
     private var mQuestionList: ArrayList<Question>? = null
     private var tvQuestion: TextView? = null
     private var tvImage: ImageView? = null
@@ -38,6 +42,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_quiz_questions)
+
+        mUserName = intent.getStringExtra(Constants.USER_NAME)
 
         tvQuestion = findViewById(R.id.tvQuestion)
         tvImage = findViewById(R.id.tvImage)
@@ -73,7 +79,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tvOptionThree?.text = question.optionThree
         tvOptionFour?.text = question.optionFour
 
-        if (mCurrentPosition == mQuestionList!!.size+1) {
+        if (mCurrentPosition == mQuestionList!!.size + 1) {
             btnSubmit?.text = "FINISH"
         } else {
             btnSubmit?.text = "SUBMIT"
@@ -103,8 +109,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             //element.setTextColor(Color.parseColor("#FF0000"))
             element.typeface = Typeface.DEFAULT
             element.background = ContextCompat.getDrawable(
-                this,
-                R.drawable.default_option_border_bg
+                this, R.drawable.default_option_border_bg
             )
         }
 
@@ -118,8 +123,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         tv.setTextColor(Color.parseColor("#363A43"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(
-            this,
-            R.drawable.selected_option_border
+            this, R.drawable.selected_option_border
         )
     }
 
@@ -151,7 +155,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.btnSubmit -> {
-                //TODO
 
                 if (mSelectedOptionPosition == 0) {
                     mCurrentPosition++
@@ -161,13 +164,23 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                         }
 
                         else -> {
-                            Toast.makeText(this, "Quiz is Finished", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(this, "Quiz is Finished", Toast.LENGTH_LONG).show()
+
+                            val intent = Intent(this, ResultActivity::class.java)
+                            intent.putExtra(Constants.USER_NAME, mUserName)
+                            intent.putExtra(Constants.CORRECT_ANSWER, mCorrectAnswers)
+                            intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionList?.size)
+                            startActivity(intent)
+                            finish()
+
                         }
                     }
                 } else {
                     val question = mQuestionList?.get(mCurrentPosition - 1)
                     if (question!!.correctAnswer != mSelectedOptionPosition) {
                         answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
+                    }else{
+                        mCorrectAnswers ++
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
