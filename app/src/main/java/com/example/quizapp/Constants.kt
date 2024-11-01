@@ -66,7 +66,30 @@ object Constants {
             4
         )
         questionList.add(qus7)
-
+        //8
+        val qus8 = Question(
+            8, "What country does this flag belong to?",
+            R.drawable.india,
+            "Iceland", "India", "Iraq", "Italy",
+            2
+        )
+        questionList.add(qus8)
+        //9
+        val qus9 = Question(
+            9, "What country does this flag belong to?",
+            R.drawable.kuwait,
+            "Kuwait", "Korea", "Kazakhstan", "Kenya",
+            1
+        )
+        questionList.add(qus9)
+        //10
+        val qus10 = Question(
+            10, "What country does this flag belong to?",
+            R.drawable.thailand,
+            "Tunisia", "Turkey", "Taiwan", "Thailand",
+            4
+        )
+        questionList.add(qus10)
 
 
         return questionList

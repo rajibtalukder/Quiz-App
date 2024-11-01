@@ -10,18 +10,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
     private var mCurrentPosition: Int = 1
     private var mSelectedOptionPosition: Int = 0
-    private var mUserName : String? = null
+    private var mUserName: String? = null
     private var mCorrectAnswers: Int = 0
 
     private var mQuestionList: ArrayList<Question>? = null
@@ -65,12 +62,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         setQuestion()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setQuestion() {
         defaultOptionsView()
         val question: Question = mQuestionList!![mCurrentPosition - 1]
-
+        progreeBar?.max = mQuestionList!!.size
         progreeBar?.progress = mCurrentPosition
-        tvProgree?.text = "$mCurrentPosition/${progreeBar?.max}"
+        tvProgree?.text = "$mCurrentPosition/${mQuestionList!!.size}"
         tvQuestion?.text = question.questions
         tvImage?.setImageResource(question.image)
 
@@ -84,7 +82,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             btnSubmit?.text = "SUBMIT"
         }
-
 
     }
 
@@ -179,8 +176,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                     val question = mQuestionList?.get(mCurrentPosition - 1)
                     if (question!!.correctAnswer != mSelectedOptionPosition) {
                         answerView(mSelectedOptionPosition, R.drawable.wrong_option_border_bg)
-                    }else{
-                        mCorrectAnswers ++
+                    } else {
+                        mCorrectAnswers++
                     }
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
 
